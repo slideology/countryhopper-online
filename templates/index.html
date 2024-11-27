@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Portfolio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Your Name</h1>
+            <p class="subtitle">Full Stack Developer & Designer</p>
+        </header>
+
+        <section class="about">
+            <p>I create elegant solutions through code and design. Currently working on exciting projects that push the boundaries of web technology.</p>
+            <div class="social-links">
+                <a href="https://github.com/yourusername" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://twitter.com/yourusername" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="https://linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </section>
+
+        <section class="game-section sprunki-game">
+            <h2>Sprunki Incredibox</h2>
+            <div class="game-container">
+                <div class="game-frame-container">
+                    <iframe id="play" src="https://game.sprunkiincredibox.app/Sprunki%20Incredibox.html" 
+                            class="game-frame" 
+                            frameborder="0" 
+                            allow="autoplay; fullscreen" 
+                            allowfullscreen="" 
+                            loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="game-section tetris-game">
+            <h2>Let's Play Tetris!</h2>
+            <div class="game-container">
+                <div class="game-area">
+                    <canvas id="tetris" width="240" height="400"></canvas>
+                    <div class="game-info">
+                        <div class="score">Score: <span id="score">0</span></div>
+                        <div class="level">Level: <span id="level">1</span></div>
+                        <div class="controls">
+                            <p>Controls:</p>
+                            <ul>
+                                <li>← → : Move</li>
+                                <li>↑ : Rotate</li>
+                                <li>↓ : Soft Drop</li>
+                                <li>Space : Hard Drop</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <button id="startButton" class="game-button">Start Game</button>
+            </div>
+        </section>
+
+        <section class="projects">
+            <div class="project-grid">
+                <article class="project-card">
+                    <img src="{{ url_for('static', filename='images/project1.jpg') }}" alt="Project 1">
+                    <div class="project-info">
+                        <h3>Project One</h3>
+                        <p>A beautiful web application built with modern technologies.</p>
+                        <div class="project-tags">
+                            <span>Python</span>
+                            <span>Flask</span>
+                            <span>React</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <img src="{{ url_for('static', filename='images/project2.jpg') }}" alt="Project 2">
+                    <div class="project-info">
+                        <h3>Project Two</h3>
+                        <p>An innovative mobile app that solves real-world problems.</p>
+                        <div class="project-tags">
+                            <span>Swift</span>
+                            <span>iOS</span>
+                            <span>UI/UX</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <footer>
+            <p> 2024 Your Name. All rights reserved.</p>
+            <p>Built with <i class="fas fa-heart"></i> using Flask</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/tetris.js') }}"></script>
+</body>
+</html>
