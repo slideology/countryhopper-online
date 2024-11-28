@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Play Game{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold mb-8 text-center">Country Hopper</h1>
+    
+    <div class="aspect-w-16 aspect-h-9 w-full max-w-4xl mx-auto bg-gray-100 dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <iframe
+            src="https://www.crazygames.com/embed/country-hopper"
+            class="w-full h-full"
+            frameborder="0"
+            allow="gamepad *;"
+            allowfullscreen
+        ></iframe>
+    </div>
+    
+    <div class="mt-8 max-w-2xl mx-auto text-center">
+        <p class="text-gray-600 dark:text-gray-400">
+            Enjoy playing Country Hopper! Test your geography knowledge and have fun hopping around the world.
+        </p>
+    </div>
+</div>
+{% endblock %}
