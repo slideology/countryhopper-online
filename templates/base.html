@@ -4,6 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - Portfolio</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="{% block meta_description %}Portfolio - 一个个人作品集网站。在这里，您可以浏览我的作品和项目。{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}个人作品集,项目展示,教育资源,在线作品{% endblock %}">
+    <meta name="author" content="Portfolio">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ self.meta_description() }}{% endblock %}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://portfolio.online{{ request.path }}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='images/og-image.jpg', _external=True) }}{% endblock %}">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ self.og_title() }}">
+    <meta name="twitter:description" content="{{ self.og_description() }}">
+    <meta name="twitter:image" content="{{ self.og_image() }}">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://portfolio.online{{ request.path }}">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.ico') }}">
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- 自定义CSS -->

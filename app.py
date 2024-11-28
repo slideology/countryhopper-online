@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, flash, redirect, url_for
+from flask import Flask, render_template, request, flash, redirect, url_for, send_from_directory
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -28,6 +28,14 @@ def contact():
     if request.method == 'POST':
         return send_message()
     return render_template('contact.html', title='Contact')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
 
 def send_message():
     name = request.form.get('name')
