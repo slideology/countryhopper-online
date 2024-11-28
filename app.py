@@ -15,6 +15,10 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-goes-here')
 def home():
     return render_template('index.html', title='Portfolio')
 
+@app.route('/about')
+def about():
+    return render_template('about.html', title='About')
+
 @app.route('/game')
 def game():
     return render_template('game.html', title='Country Hopper')
