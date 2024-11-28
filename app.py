@@ -1,6 +1,4 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -11,63 +9,62 @@ load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-goes-here')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
 
 # 路由
 @app.route('/')
 def home():
     return render_template('index.html', title='Portfolio')
 
-@app.route('/about')
-def about():
-    return render_template('about.html', title='About')
-
 @app.route('/game')
 def game():
-    return render_template('game.html', title='Play Game')
+    return render_template('game.html', title='Country Hopper')
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        return send_message()
     return render_template('contact.html', title='Contact')
 
-@app.route('/send-message', methods=['POST'])
 def send_message():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message = request.form.get('message')
+    
+    if not all([name, email, message]):
+        flash('Please fill in all fields', 'error')
+        return redirect(url_for('contact'))
+    
     try:
-        name = request.form.get('name')
-        email = request.form.get('email')
-        message = request.form.get('message')
-
-        # 创建邮件
+        email_user = os.getenv('EMAIL_USER')
+        email_password = os.getenv('EMAIL_PASSWORD')
+        
+        if not email_user or not email_password:
+            flash('Email configuration is not set up', 'error')
+            return redirect(url_for('contact'))
+        
         msg = MIMEMultipart()
-        msg['From'] = os.getenv('EMAIL_USER')
-        msg['To'] = os.getenv('EMAIL_USER')  # 发送给自己
-        msg['Subject'] = f"Portfolio Contact: Message from {name}"
-
+        msg['From'] = email_user
+        msg['To'] = email_user  # Send to yourself
+        msg['Subject'] = f"New Contact Form Submission from {name}"
+        
         body = f"""
         Name: {name}
         Email: {email}
-        Message:
-        {message}
+        Message: {message}
         """
         msg.attach(MIMEText(body, 'plain'))
-
-        # 发送邮件
+        
         server = smtplib.SMTP('smtp.gmail.com', 587)
         server.starttls()
-        server.login(os.getenv('EMAIL_USER'), os.getenv('EMAIL_PASSWORD'))
-        text = msg.as_string()
+        server.login(email_user, email_password)
         server.send_message(msg)
         server.quit()
-
+        
         flash('Message sent successfully!', 'success')
     except Exception as e:
-        app.logger.error(f"Error sending email: {e}")
-        flash('Sorry, there was an error sending your message. Please try again later.', 'error')
-
+        flash(f'An error occurred: {str(e)}', 'error')
+    
     return redirect(url_for('contact'))
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
     app.run(debug=True, port=3000)
