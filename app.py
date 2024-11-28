@@ -10,24 +10,24 @@ load_dotenv()
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'your-secret-key-goes-here')
 
-# 路由
+# Routes
 @app.route('/')
 def home():
-    return render_template('index.html', title='Portfolio')
+    return render_template('index.html', title='CountryHopper - Interactive Geography Game')
 
 @app.route('/about')
 def about():
-    return render_template('about.html', title='About')
+    return render_template('about.html', title='About CountryHopper')
 
 @app.route('/game')
 def game():
-    return render_template('game.html', title='Country Hopper')
+    return render_template('game.html', title='Play CountryHopper')
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
     if request.method == 'POST':
         return send_message()
-    return render_template('contact.html', title='Contact')
+    return render_template('contact.html', title='Contact CountryHopper')
 
 @app.route('/sitemap.xml')
 def sitemap():
@@ -40,9 +40,10 @@ def robots():
 def send_message():
     name = request.form.get('name')
     email = request.form.get('email')
+    subject = request.form.get('subject')
     message = request.form.get('message')
     
-    if not all([name, email, message]):
+    if not all([name, email, subject, message]):
         flash('Please fill in all fields', 'error')
         return redirect(url_for('contact'))
     
@@ -57,11 +58,12 @@ def send_message():
         msg = MIMEMultipart()
         msg['From'] = email_user
         msg['To'] = email_user  # Send to yourself
-        msg['Subject'] = f"New Contact Form Submission from {name}"
+        msg['Subject'] = f"CountryHopper: {subject} - from {name}"
         
         body = f"""
         Name: {name}
         Email: {email}
+        Subject: {subject}
         Message: {message}
         """
         msg.attach(MIMEText(body, 'plain'))
@@ -72,9 +74,9 @@ def send_message():
         server.send_message(msg)
         server.quit()
         
-        flash('Message sent successfully!', 'success')
+        flash('Thank you for your message! We will get back to you soon.', 'success')
     except Exception as e:
-        flash(f'An error occurred: {str(e)}', 'error')
+        flash('Sorry, there was a problem sending your message. Please try again later.', 'error')
     
     return redirect(url_for('contact'))
 
