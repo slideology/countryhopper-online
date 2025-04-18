@@ -37,6 +37,10 @@ def sitemap():
 def robots():
     return send_from_directory('static', 'robots.txt')
 
+@app.route('/ads.txt')
+def ads():
+    return send_from_directory('static', 'ads.txt')
+
 def send_message():
     name = request.form.get('name')
     email = request.form.get('email')
